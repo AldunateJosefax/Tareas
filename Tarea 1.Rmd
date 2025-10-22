@@ -38,9 +38,95 @@ sabrina$id
 sabrina_albums <- get_artist_albums(sabrina$id[1], include_groups = "album")
 unique(sabrina_albums$name)
 
-#Limpiar base de sabrina_albums
+View(sabrina_albums)
+
+#Limpiar base de sabrina_albums, para dejar solo las columnas de interés y renombrarlas (es importante mantener en la columna el id, ya que es la manera de identificar en la base de datos de spotify lo que estamos solicitando)
+
+sabrina_albums <- sabrina_albums %>%
+  select(id, name, release_date, total_tracks) %>%
+  distinct(name, .keep_all = TRUE) %>%
+  rename(
+    nombre = name,
+    `fecha de lanzamiento` = release_date,
+    canciones = total_tracks
+  )
+
+View(sabrina_albums)
 
 #Utilizaremos las funciones del paquete de dplyr para manipular los datos, ya que buscaremos conocer la popularidad de sus álbumes
+
+album_popularity <- sabrina_albums %>%
+  rowwise() %>%
+  mutate(
+    popularidad = {
+      tracks_data <- get_album_tracks(id)
+      track_ids <- tracks_data$id
+      track_info <- get_tracks(track_ids)
+      mean(track_info$popularity, na.rm = TRUE)
+    }
+  ) %>%
+  ungroup() %>%
+  select(nombre, `fecha de lanzamiento`, canciones, popularidad) %>%
+  arrange(desc(popularidad))
+
+View(album_popularity)
+
+#Para poder visualizar/modelar los álbumes de acuerdo a su popularidad 
+
+library(ggplot2)
+library (ggshadow)
+
+ggplot(album_popularity, aes(x = reorder(nombre, -popularidad), y = popularidad)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(
+    title = "Popularidad de los Álbumes de Sabrina Carpenter",
+       x = "Álbum",
+       y = "Popularidad Promedio( 0-100 )"
+       )+
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#En formato horizonatal
+
+ggplot(album_popularity, aes(x = reorder(nombre, popularidad), y = popularidad)) +
+  # Barras celestes con borde blanco y transparencia
+  geom_col(
+    fill = "skyblue1",
+    color = "white",
+    alpha = 0.9
+  ) +
+
+# Etiquetas de popularidad
+  geom_text(
+    aes(label = round(popularidad, 1)),
+    hjust = -0.1,
+    color = "gray25",
+    size = 3.8
+  ) +
+
+# Girar a horizontal
+  coord_flip() +
+
+# Títulos y etiquetas
+  labs(
+    title = "Popularidad promedio de los álbumes de Sabrina Carpenter",
+    subtitle = "Índice de popularidad (0-100) según Spotify",
+    x = "Álbum",
+    y = "Popularidad promedio"
+  ) +
+
+# Tema visual
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(face = "bold", color = "#333333"),
+    plot.title = element_text(face = "bold", size = 15)
+  ) +
+  ylim(0, 100)
+
+
 
 
 
