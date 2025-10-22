@@ -1,0 +1,47 @@
+---
+#title: "Tarea 1 Josefa Aldunate"
+#output: html_document
+#date: "2025-10-21"
+---
+#Cargar librerías necesarias
+
+install.packages("tidyverse")
+library(tidyverse)
+
+install.packages("readxl")
+library(readxl)
+
+install.packages("dplyr")
+library(dplyr)
+
+#Cargar datos, para ello, se deberá cargar la API de spotify
+
+install.packages('spotifyr')
+library(spotifyr)
+
+#Ingresar credenciales de Spotify
+
+Sys.setenv(SPOTIFY_CLIENT_ID = '347570626c4e4a16b776c37845b6cb9a')
+Sys.setenv(SPOTIFY_CLIENT_SECRET = '0f9391626dd845f0be16743f10a3461d')
+
+access_token <- get_spotify_access_token()
+
+access_token
+
+#Buscar Sabrina Carpenter en Spotify y obtener su ID de artista
+
+sabrina <- search_spotify("Sabrina Carpenter", type = "artist")
+sabrina$id
+
+#Obtener los álbumes de Sabrina Carpenter
+
+sabrina_albums <- get_artist_albums(sabrina$id[1], include_groups = "album")
+unique(sabrina_albums$name)
+
+#Limpiar base de sabrina_albums
+
+#Utilizaremos las funciones del paquete de dplyr para manipular los datos, ya que buscaremos conocer la popularidad de sus álbumes
+
+
+
+
