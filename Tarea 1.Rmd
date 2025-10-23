@@ -134,5 +134,3 @@ ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
   coord_flip(clip = "off") + 
   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
   expand_limits(y = max(sabrina_plot$popularidad) * 1.15)
-
-
