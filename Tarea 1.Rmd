@@ -6,13 +6,26 @@
 #Cargar librerías necesarias
 
 install.packages("tidyverse")
-library(tidyverse)
 
 install.packages("readxl")
-library(readxl)
+
+install.packages("showtext")
+
+install.packages("sysfonts")
 
 install.packages("dplyr")
+
+library(showtext)
+
+library(sysfonts)
+
+library(tidyverse)
+
+library(readxl)
+
 library(dplyr)
+
+library(ggplot2)
 
 #Cargar datos, para ello, se deberá cargar la API de spotify
 
@@ -25,6 +38,8 @@ Sys.setenv(SPOTIFY_CLIENT_ID = '347570626c4e4a16b776c37845b6cb9a')
 Sys.setenv(SPOTIFY_CLIENT_SECRET = '0f9391626dd845f0be16743f10a3461d')
 
 access_token <- get_spotify_access_token()
+
+#Verificar el acceso a API
 
 access_token
 
@@ -71,63 +86,75 @@ album_popularity <- sabrina_albums %>%
 
 View(album_popularity)
 
+#La popularidad en spotify es basada del 0 al 100, siendo 100 la más popular
 #Para poder visualizar/modelar los álbumes de acuerdo a su popularidad 
 
-library(ggplot2)
-library (ggshadow)
+# Activar fuente decorativa (opcional)
 
-ggplot(album_popularity, aes(x = reorder(nombre, -popularidad), y = popularidad)) +
-  geom_bar(stat = "identity", fill = "skyblue") +
+font_add_google("Pacifico", "pacifico")
+
+showtext_auto()
+
+# Ordenamos de mayor a menor popularidad
+
+sabrina_plot <- album_popularity %>%
+  arrange(desc(popularidad)) %>%
+  mutate(nombre = factor(nombre, levels = rev(unique(nombre))))
+
+# Crear gráfico con brillo celeste
+
+ggplot(sabrina_plot, aes(x = popularidad, y = nombre)) +
+  geom_bar(stat = "identity", fill = "#6ECFF6", alpha = 0.9, color = "white", linewidth = 1.2) +
+  geom_bar(stat = "identity", fill = "skyblue", alpha = 0.4) +  # capa extra para efecto "brillo"
+  geom_text(aes(label = nombre), hjust = -0.1, color = "white",
+            fontface = "bold", family = "pacifico", size = 6) +
   labs(
-    title = "Popularidad de los Álbumes de Sabrina Carpenter",
-       x = "Álbum",
-       y = "Popularidad Promedio( 0-100 )"
-       )+
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-#En formato horizonatal
-
-ggplot(album_popularity, aes(x = reorder(nombre, popularidad), y = popularidad)) +
-  # Barras celestes con borde blanco y transparencia
-  geom_col(
-    fill = "skyblue1",
-    color = "white",
-    alpha = 0.9
+    title = "Popularidad de los álbumes de Sabrina Carpenter 💿",
+    subtitle = "Basado en la media de popularidad de sus canciones",
+    x = "Popularidad promedio",
+    y = NULL
   ) +
-
-# Etiquetas de popularidad
-  geom_text(
-    aes(label = round(popularidad, 1)),
-    hjust = -0.1,
-    color = "gray25",
-    size = 3.8
-  ) +
-
-# Girar a horizontal
-  coord_flip() +
-
-# Títulos y etiquetas
-  labs(
-    title = "Popularidad promedio de los álbumes de Sabrina Carpenter",
-    subtitle = "Índice de popularidad (0-100) según Spotify",
-    x = "Álbum",
-    y = "Popularidad promedio"
-  ) +
-
-# Tema visual
-  theme_minimal(base_size = 13) +
+  theme_minimal(base_family = "pacifico") +
   theme(
-    plot.background = element_rect(fill = "white", color = NA),
+    plot.title = element_text(size = 20, color = "#0099CC", hjust = 0.5),
+    plot.subtitle = element_text(size = 12, color = "gray40", hjust = 0.5),
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(size = 12, color = "gray30"),
     panel.grid.major.y = element_blank(),
     panel.grid.minor = element_blank(),
-    axis.text.y = element_text(face = "bold", color = "#333333"),
-    plot.title = element_text(face = "bold", size = 15)
+    plot.background = element_rect(fill = "white", color = NA)
   ) +
-  ylim(0, 100)
+  coord_cartesian(xlim = c(0, max(sabrina_plot$popularidad) * 1.2)) +
+  coord_flip()
 
 
+# Gráfico horizontal
 
-
+ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
+  geom_bar(stat = "identity", fill = "#6ECFF6", alpha = 0.9, color = "white", linewidth = 1.2) +
+  geom_bar(stat = "identity", fill = "skyblue", alpha = 0.4) +  # efecto brillo
+  geom_text(aes(label = round(popularidad, 1)), 
+            hjust = -0.2, color = "white", fontface = "bold", 
+            family = "pacifico", size = 6) +
+  labs(
+    title = "Popularidad de los álbumes de Sabrina Carpenter 💿",
+    subtitle = "Basado en la media de popularidad de sus canciones",
+    x = NULL,
+    y = "Popularidad promedio"
+  ) +
+  theme_minimal(base_family = "pacifico") +
+  theme(
+    plot.title = element_text(size = 18, color = "#0099CC", hjust = 1),
+    plot.subtitle = element_text(size = 12, color = "gray40", hjust = 4),
+    axis.text.y = element_text(size = 12, color = "gray30", hjust = 1),
+    axis.text.x = element_blank(),
+    axis.title.y = element_text(size = 14, face = "bold", color = "black"),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.background = element_rect(fill = "white", color = NA)
+  ) +
+  coord_flip(clip = "off") + 
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
+  expand_limits(y = max(sabrina_plot$popularidad) * 1.15)
 
 
