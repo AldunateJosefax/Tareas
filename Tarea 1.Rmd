@@ -101,33 +101,6 @@ sabrina_plot <- album_popularity %>%
   arrange(desc(popularidad)) %>%
   mutate(nombre = factor(nombre, levels = rev(unique(nombre))))
 
-
-
-ggplot(sabrina_plot, aes(x = popularidad, y = nombre)) +
-  geom_bar(stat = "identity", fill = "#6ECFF6", alpha = 0.9, color = "white", linewidth = 1.2) +
-  geom_bar(stat = "identity", fill = "skyblue", alpha = 0.4) +  # capa extra para efecto "brillo"
-  geom_text(aes(label = nombre), hjust = -0.1, color = "white",
-            fontface = "bold", family = "pacifico", size = 6) +
-  labs(
-    title = "Popularidad de los álbumes de Sabrina Carpenter 💿",
-    subtitle = "Basado en la media de popularidad de sus canciones",
-    x = "Popularidad promedio",
-    y = NULL
-  ) +
-  theme_minimal(base_family = "pacifico") +
-  theme(
-    plot.title = element_text(size = 20, color = "#0099CC", hjust = 0.5),
-    plot.subtitle = element_text(size = 12, color = "gray40", hjust = 0.5),
-    axis.text.y = element_blank(),
-    axis.text.x = element_text(size = 12, color = "gray30"),
-    panel.grid.major.y = element_blank(),
-    panel.grid.minor = element_blank(),
-    plot.background = element_rect(fill = "white", color = NA)
-  ) +
-  coord_cartesian(xlim = c(0, max(sabrina_plot$popularidad) * 1.2)) +
-  coord_flip()
-
-
 # Gráfico horizontal
 
 ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
@@ -137,7 +110,7 @@ ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
             hjust = -0.2, color = "white", fontface = "bold", 
             family = "pacifico", size = 6) +
   labs(
-    title = "Popularidad de los álbumes de Sabrina Carpenter 💿",
+    title = "Popularidad de los álbumes de Sabrina Carpenteruse",
     subtitle = "Basado en la media de popularidad de sus canciones",
     x = NULL,
     y = "Popularidad promedio"
