@@ -66,7 +66,7 @@ sabrina <- search_spotify("Sabrina Carpenter", type = "artist")
 sabrina$id
 ```
 
-ya que tenemos identificada a la cantantes, nos introduciremos a conocer los álbumes, aqui se abrirá la base de datos, la cual tendrá mucha más información que lo que buscamos, pero calma, paso a paso.
+ya que tenemos identificada a la cantante, nos introduciremos a conocer los álbumes, aqui se abrirá la base de datos, la cual tendrá mucha más información que lo que buscamos, pero calma, paso a paso.
 
 ```{r}
 sabrina_albums <- get_artist_albums(sabrina$id[1], include_groups = "album")
