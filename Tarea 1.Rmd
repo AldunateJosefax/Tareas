@@ -126,8 +126,8 @@ ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
   ) +
   theme_minimal(base_family = "pacifico") +
   theme(
-    plot.title = element_text(size = 18, color = "#0099CC", hjust = 1),
-    plot.subtitle = element_text(size = 12, color = "gray40", hjust = 4),
+    plot.title = element_text(size = 18, color = "#0099CC", hjust = 0.08),
+    plot.subtitle = element_text(size = 12, color = "gray40", hjust = 0.1),
     axis.text.y = element_text(size = 12, color = "gray30", hjust = 1),
     axis.title.y = element_text(size = 14, face = "bold", color = "black"),
     panel.grid.major.y = element_blank(),
