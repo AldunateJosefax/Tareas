@@ -169,7 +169,7 @@ ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
 
 Este código en específico `geom_textured_col(image = img, color = "white", width = 0.8)` , es el encargado de ingresar la imagen como las barras del gráfico, por lo que es importante que se ingrese correctamente.
 
-![](images/clipboard-1101186754.png)
+![](Gráfico final.png)
 
 Y es así, como en conclusión, el álbum más popular de Sabrina Carpenter, es Man's Best Friend, el cual es el álbum que más escucho de ella, lo que finalmente da a entender que soy como la mayoria de sus oyentes y no una oyente que ha seguido su carrera y fiel, ya que también es el primer álbum que empecé a escuchar de Sabrina Carpenter.
 
