@@ -169,10 +169,10 @@ ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
 
 Este código en específico `geom_textured_col(image = img, color = "white", width = 0.8)` , es el encargado de ingresar la imagen como las barras del gráfico, por lo que es importante que se ingrese correctamente.
 
-![](Gráfico final.png)
+![](images/clipboard-1101186754.png)
 
-También, es importante saber que c![]()on todos los datos, sea color, tipo de letra, tamaño, etc. son gustos personales, por lo que puedes jugar con ellos, de acuerdo a tu creatividad y lo que personalmente desees.
+Y es así, como en conclusión, el álbum más popular de Sabrina Carpenter, es Man's Best Friend, el cual es el álbum que más escucho de ella, lo que finalmente da a entender que soy como la mayoria de sus oyentes y no una oyente que ha seguido su carrera y fiel, ya que también es el primer álbum que empecé a escuchar de Sabrina Carpenter.
 
-Y es así, como en conclusión, si tu albúm más escuchado como es el mio, es Man´s Best Friend, eres como la mayoria de sus oyentes, ya que es el que ha tenido más popularidad.
+PD: También, es importante saber que c![]()on todos los datos, sea color, tipo de letra, tamaño, etc. son gustos personales, por lo que puedes jugar con ellos, de acuerdo a tu creatividad y lo que personalmente desees.
 
 *Aquí dejo el link de la autora del trabajo de Taylor Swift que fue de gran inspiración* <https://github.com/aaumaitre/taylor_swift/blob/1e09029a48e6dad64e6d5488543d6d22605593bd/README.md>
