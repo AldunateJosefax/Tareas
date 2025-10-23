@@ -92,20 +92,17 @@ album_popularity <- sabrina_albums %>%
 
 View(album_popularity)
 
-#La popularidad en spotify es basada del 0 al 100, siendo 100 la más popular
-#Para poder visualizar/modelar los álbumes de acuerdo a su popularidad 
+# Ordenamos de mayor a menor popularidad
+
+sabrina_plot <- album_popularity %>%
+  arrange(desc(popularidad)) %>%
+  mutate(nombre = factor(nombre, levels = rev(unique(nombre))))
 
 # Activar fuente decorativa
 
 font_add_google("Pacifico", "pacifico")
 
 showtext_auto()
-
-# Ordenamos de mayor a menor popularidad
-
-sabrina_plot <- album_popularity %>%
-  arrange(desc(popularidad)) %>%
-  mutate(nombre = factor(nombre, levels = rev(unique(nombre))))
 
 #imagen
 
@@ -120,13 +117,13 @@ ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
             family = "pacifico", size = 4) +
   labs(
     title = "Popularidad de los álbumes de Sabrina Carpenter",
-    subtitle = "Basado en la media de popularidad de sus canciones",
+    subtitle = "Basado en la popularidad de sus canciones",
     x = NULL,
     y = "Popularidad promedio"
   ) +
   theme_minimal(base_family = "pacifico") +
   theme(
-    plot.title = element_text(size = 18, color = "#0099CC", hjust = 0.08),
+    plot.title = element_text(size = 18, color = "#0099CC", hjust = 0.1),
     plot.subtitle = element_text(size = 12, color = "gray40", hjust = 0.1),
     axis.text.y = element_text(size = 12, color = "gray30", hjust = 1),
     axis.title.y = element_text(size = 14, face = "bold", color = "black"),
