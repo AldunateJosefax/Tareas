@@ -169,7 +169,9 @@ ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
 
 Este código en específico `geom_textured_col(image = img, color = "white", width = 0.8)` , es el encargado de ingresar la imagen como las barras del gráfico, por lo que es importante que se ingrese correctamente.
 
-También, es importante saber que con todos los datos, sea color, tipo de letra, tamaño, etc. son gustos personales, por lo que puedes jugar con ellos, de acuerdo a tu creatividad y lo que personalmente desees.
+![](Gráfico final.png)
+
+También, es importante saber que c![]()on todos los datos, sea color, tipo de letra, tamaño, etc. son gustos personales, por lo que puedes jugar con ellos, de acuerdo a tu creatividad y lo que personalmente desees.
 
 Y es así, como en conclusión, si tu albúm más escuchado como es el mio, es Man´s Best Friend, eres como la mayoria de sus oyentes, ya que es el que ha tenido más popularidad.
 
