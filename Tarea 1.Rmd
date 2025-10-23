@@ -15,6 +15,12 @@ install.packages("sysfonts")
 
 install.packages("dplyr")
 
+devtools::install_github("clauswilke/ggtextures")
+
+install.packages("ggtextures")
+
+library(ggtextures)
+
 library(showtext)
 
 library(sysfonts)
@@ -89,7 +95,7 @@ View(album_popularity)
 #La popularidad en spotify es basada del 0 al 100, siendo 100 la más popular
 #Para poder visualizar/modelar los álbumes de acuerdo a su popularidad 
 
-# Activar fuente decorativa (opcional)
+# Activar fuente decorativa
 
 font_add_google("Pacifico", "pacifico")
 
@@ -101,16 +107,19 @@ sabrina_plot <- album_popularity %>%
   arrange(desc(popularidad)) %>%
   mutate(nombre = factor(nombre, levels = rev(unique(nombre))))
 
+#imagen
+
+img = "brillo-brillo_23-2148110774.jpg"
+
 # Gráfico horizontal
 
 ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
-  geom_bar(stat = "identity", fill = "#6ECFF6", alpha = 0.9, color = "white", linewidth = 1.2) +
-  geom_bar(stat = "identity", fill = "skyblue", alpha = 0.4) +  # efecto brillo
+  geom_textured_col(image = img, color = "white", width = 0.8) +  
   geom_text(aes(label = round(popularidad, 1)), 
-            hjust = -0.2, color = "white", fontface = "bold", 
-            family = "pacifico", size = 6) +
+            hjust = -0.2, color = "gray40", fontface = "bold", 
+            family = "pacifico", size = 4) +
   labs(
-    title = "Popularidad de los álbumes de Sabrina Carpenteruse",
+    title = "Popularidad de los álbumes de Sabrina Carpenter",
     subtitle = "Basado en la media de popularidad de sus canciones",
     x = NULL,
     y = "Popularidad promedio"
@@ -120,7 +129,6 @@ ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
     plot.title = element_text(size = 18, color = "#0099CC", hjust = 1),
     plot.subtitle = element_text(size = 12, color = "gray40", hjust = 4),
     axis.text.y = element_text(size = 12, color = "gray30", hjust = 1),
-    axis.text.x = element_blank(),
     axis.title.y = element_text(size = 14, face = "bold", color = "black"),
     panel.grid.major.y = element_blank(),
     panel.grid.minor = element_blank(),
