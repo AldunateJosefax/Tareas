@@ -173,6 +173,6 @@ Este código en específico `geom_textured_col(image = img, color = "white", wid
 
 También, es importante saber que c![]()on todos los datos, sea color, tipo de letra, tamaño, etc. son gustos personales, por lo que puedes jugar con ellos, de acuerdo a tu creatividad y lo que personalmente desees.
 
-Y es así, como en conclusión, si tu albúm más escuchado como es el mio, es Man´s Best Friend, eres como la mayoria de sus oyentes, ya que es el que ha tenido más popularidad.u
+Y es así, como en conclusión, si tu albúm más escuchado como es el mio, es Man´s Best Friend, eres como la mayoria de sus oyentes, ya que es el que ha tenido más popularidad.
 
 *Aquí dejo el link de la autora del trabajo de Taylor Swift que fue de gran inspiración* <https://github.com/aaumaitre/taylor_swift/blob/1e09029a48e6dad64e6d5488543d6d22605593bd/README.md>
