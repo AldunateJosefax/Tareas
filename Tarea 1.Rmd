@@ -101,7 +101,7 @@ sabrina_plot <- album_popularity %>%
   arrange(desc(popularidad)) %>%
   mutate(nombre = factor(nombre, levels = rev(unique(nombre))))
 
-# Crear gráfico con brillo celeste
+
 
 ggplot(sabrina_plot, aes(x = popularidad, y = nombre)) +
   geom_bar(stat = "identity", fill = "#6ECFF6", alpha = 0.9, color = "white", linewidth = 1.2) +
