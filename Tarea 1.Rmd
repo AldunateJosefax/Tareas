@@ -3,8 +3,12 @@
 #output: html_document
 #date: "2025-10-21"
 ---
-#Cargar librerías necesarias
 
+# Análisis de los álbumes de Sabrina Carpenter
+
+Cargar librerías necesarias
+
+```{r}
 install.packages("tidyverse")
 
 install.packages("readxl")
@@ -16,9 +20,9 @@ install.packages("sysfonts")
 install.packages("dplyr")
 
 devtools::install_github("clauswilke/ggtextures")
+```
 
-install.packages("ggtextures")
-
+```{r}
 library(ggtextures)
 
 library(showtext)
@@ -32,37 +36,48 @@ library(readxl)
 library(dplyr)
 
 library(ggplot2)
+```
 
-#Cargar datos, para ello, se deberá cargar la API de spotify
+Cargar datos, para ello, se deberá cargar la API de spotify
 
+```{r}
 install.packages('spotifyr')
 library(spotifyr)
+```
 
-#Ingresar credenciales de Spotify
+Ingresar credenciales de Spotify
 
-Sys.setenv(SPOTIFY_CLIENT_ID = '347570626c4e4a16b776c37845b6cb9a')
-Sys.setenv(SPOTIFY_CLIENT_SECRET = '0f9391626dd845f0be16743f10a3461d')
+```{r}
+Sys.setenv(SPOTIFY_CLIENT_ID = 'X')
+Sys.setenv(SPOTIFY_CLIENT_SECRET = 'X')
+```
 
+```{r}
 access_token <- get_spotify_access_token()
+```
 
-#Verificar el acceso a API
+Verificar el acceso a API
 
+```{r}
 access_token
+```
 
-#Buscar Sabrina Carpenter en Spotify y obtener su ID de artista
+Buscar Sabrina Carpenter en Spotify y obtener su ID de artista
 
+```{r}
 sabrina <- search_spotify("Sabrina Carpenter", type = "artist")
 sabrina$id
+```
+Obtener los álbumes de Sabrina Carpenter
 
-#Obtener los álbumes de Sabrina Carpenter
-
+```{r}
 sabrina_albums <- get_artist_albums(sabrina$id[1], include_groups = "album")
 unique(sabrina_albums$name)
+```
 
-View(sabrina_albums)
+Limpiar base de sabrina_albums, para dejar solo las columnas de interés y renombrarlas (es importante mantener en la columna el id, ya que es la manera de identificar en la base de datos de spotify lo que estamos solicitando)
 
-#Limpiar base de sabrina_albums, para dejar solo las columnas de interés y renombrarlas (es importante mantener en la columna el id, ya que es la manera de identificar en la base de datos de spotify lo que estamos solicitando)
-
+```{r}
 sabrina_albums <- sabrina_albums %>%
   select(id, name, release_date, total_tracks) %>%
   distinct(name, .keep_all = TRUE) %>%
@@ -71,11 +86,11 @@ sabrina_albums <- sabrina_albums %>%
     `fecha de lanzamiento` = release_date,
     canciones = total_tracks
   )
+```
 
-View(sabrina_albums)
+Utilizaremos las funciones del paquete de dplyr para manipular los datos, ya que buscaremos conocer la popularidad de sus álbumes
 
-#Utilizaremos las funciones del paquete de dplyr para manipular los datos, ya que buscaremos conocer la popularidad de sus álbumes
-
+```{r}
 album_popularity <- sabrina_albums %>%
   rowwise() %>%
   mutate(
@@ -89,27 +104,34 @@ album_popularity <- sabrina_albums %>%
   ungroup() %>%
   select(nombre, `fecha de lanzamiento`, canciones, popularidad) %>%
   arrange(desc(popularidad))
+```
 
-View(album_popularity)
+Ordenamos de mayor a menor popularidad
 
-# Ordenamos de mayor a menor popularidad
-
+```{r}
 sabrina_plot <- album_popularity %>%
   arrange(desc(popularidad)) %>%
   mutate(nombre = factor(nombre, levels = rev(unique(nombre))))
+```
+
 
 # Activar fuente decorativa
 
+```{r}
 font_add_google("Pacifico", "pacifico")
 
 showtext_auto()
+```
 
-#imagen
+Agregar la imagen
 
-img = "brillo-brillo_23-2148110774.jpg"
+```{r}
+img = "input/brillo-brillo_23-2148110774.jpg"
+```
 
-# Gráfico horizontal
+Gráfico horizontal
 
+```{r}
 ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
   geom_textured_col(image = img, color = "white", width = 0.8) +  
   geom_text(aes(label = round(popularidad, 1)), 
@@ -134,3 +156,5 @@ ggplot(sabrina_plot, aes(x = nombre, y = popularidad)) +
   coord_flip(clip = "off") + 
   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 10)) +
   expand_limits(y = max(sabrina_plot$popularidad) * 1.15)
+```
+
